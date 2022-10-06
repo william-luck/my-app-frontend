@@ -3,35 +3,24 @@ import { Container, ListGroupItem } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-function CountryList({countries}) {
+function CountryList({countries, setSelectedCountry}) {
 
-    
-
-    if (countries.length !== 0) {
-        console.log('I am no longer empty')
-        console.log(countries[0])
-    } else {
-        
+    function handleClick(id) {
+        console.log('Clicked country')
+        setSelectedCountry(id)
+        console.log(id)
     }
 
 
-    const testCountries = ['Africa', 'thats not a country', 'sweet home alabama']
-
-    
-    
-    
 
     return(
         <div style={{maxHeight: '300px', overflowY: 'scroll'}}>
         <Container>
              <ListGroup>
-             {/* <ListGroup.Item>suhhhhhh dude</ListGroup.Item>
-             <ListGroup.Item>suhhhhhh dude</ListGroup.Item>
-             <ListGroup.Item>suhhhhhh dude</ListGroup.Item> */}
-
+            
             {countries.length !== 0 ? 
                 countries.map(country => {
-                    return <ListGroup.Item>{country.country_name}</ListGroup.Item>
+                    return <ListGroup.Item action onClick={() => handleClick(country.id)} key={country.id} >{country.country_name}</ListGroup.Item>
                 })
                 : console.log('I am not supposed to populate')}
 
