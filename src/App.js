@@ -3,6 +3,11 @@ import CountryList from './Components/CountryList';
 import TravelersInfo from './Components/TravelersInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { Container } from 'react-bootstrap';
+
+
 
 function App() {
 
@@ -20,10 +25,38 @@ function App() {
 }, [])
 
   return (
-    <div>
-      <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
-      <TravelersInfo selectedCountry={selectedCountry}/>
-    </div>
+    <Container>
+
+    <Tabs
+      defaultActiveKey="profile"
+      id="justify-tab-example"
+      className="mb-3"
+      justify
+    >
+      <Tab eventKey="home" title="Home">
+        <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
+        <TravelersInfo selectedCountry={selectedCountry}/>
+      </Tab>
+      <Tab eventKey="profile" title="Profile">
+        {/* <Sonnet /> */}
+      </Tab>
+      <Tab eventKey="longer-tab" title="Loooonger Tab">
+        {/* <Sonnet /> */}
+      </Tab>
+      <Tab eventKey="contact" title="Contact" disabled>
+        {/* <Sonnet /> */}
+      </Tab>
+    </Tabs>
+
+    </Container>
+
+
+
+
+    // <div>
+    //   <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
+    //   <TravelersInfo selectedCountry={selectedCountry}/>
+    // </div>
   );
 }
 

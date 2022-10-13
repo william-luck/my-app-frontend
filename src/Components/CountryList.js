@@ -12,8 +12,6 @@ function CountryList({countries, setSelectedCountry, travelerCountArray}) {
         console.log(id)
     }
 
-
-
     return(
         <div style={{maxHeight: '300px', overflowY: 'scroll'}}>
         <Container>
