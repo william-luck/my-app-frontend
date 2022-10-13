@@ -14,6 +14,7 @@ function App() {
   const [countries, setCountries] = useState([])
   const [selectedCountry, setSelectedCountry] = useState(1)
   const [travelerCountArray, setTravelerCountArray] = useState([])
+  const [profileEnabled, setProfileEnabled] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')
@@ -33,17 +34,23 @@ function App() {
       className="mb-3"
       justify
     >
-      <Tab eventKey="home" title="Home">
+      <Tab eventKey="home" title="Countries">
         <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
-        <TravelersInfo selectedCountry={selectedCountry}/>
+        <TravelersInfo selectedCountry={selectedCountry} setProfileEnabled={setProfileEnabled} profileEnabled={profileEnabled}/>
       </Tab>
-      <Tab eventKey="profile" title="Profile">
+      {profileEnabled ? 
+        <Tab eventKey="profile" title="Traveler Profile">
+        {/* <Sonnet /> */}
+        </Tab> 
+        :
+        <Tab eventKey="profile" title="Traveler Profile" disabled>
+        {/* <Sonnet /> */}
+        </Tab>
+        }
+      <Tab eventKey="longer-tab" title="Add Traveler">
         {/* <Sonnet /> */}
       </Tab>
-      <Tab eventKey="longer-tab" title="Loooonger Tab">
-        {/* <Sonnet /> */}
-      </Tab>
-      <Tab eventKey="contact" title="Contact" disabled>
+      <Tab eventKey="longer-tab2" title="Add Visit">
         {/* <Sonnet /> */}
       </Tab>
     </Tabs>
