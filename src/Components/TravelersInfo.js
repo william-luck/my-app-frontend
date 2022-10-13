@@ -15,12 +15,10 @@ function TravelersInfo({selectedCountry}) {
     const [selectedCountryName, setSelectedCountryName] = useState('')
 
     useEffect(() => {
-        fetch(`http://localhost:9292/travelers/${selectedCountry}`)
+        fetch(`http://localhost:9292/travelers_in_country/${selectedCountry}`)
             .then((r) => r.json())
-            .then((travelers) => {
-                setTravelersInCountry(travelers)
-                console.log("Getting travelers in country")
-                console.log(travelersInCountry)
+            .then(travelers_in_country => {
+                setTravelersInCountry(travelers_in_country)
             })
         fetch(`http://localhost:9292/findcountryname/${selectedCountry}`)
             .then(r => r.json())
@@ -67,16 +65,6 @@ function TravelersInfo({selectedCountry}) {
                         {travelersInCountry.map(traveler => {
                             return <Tab.Pane eventKey={traveler.id}>
                                 Vists in {selectedCountryName}
-                                {/* {<ul>
-                                    {visitsOfSelectedTravler.map(visit => {
-                                        return <li>{visit.accomodation_type}
-                                                    <ul>
-                                                        <li>{visit.accomodation_name}</li>
-                                                        <li>{visit.address}</li> 
-                                                        <li>Somehow to get country name</li>
-                                                    </ul> 
-                                                </li>
-                                    })} */}
                                 <ul>
                                     {visitsOfSelectedTravler.filter(visit => visit.country_id === selectedCountry).map(visit => {
                                         return <li>{visit.accomodation_type}
