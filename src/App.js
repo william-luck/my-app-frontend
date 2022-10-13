@@ -8,16 +8,20 @@ function App() {
 
   const [countries, setCountries] = useState([])
   const [selectedCountry, setSelectedCountry] = useState(1)
+  const [travelerCountArray, setTravelerCountArray] = useState([])
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')
-    .then((r) => r.json())
-    .then((countries) => {setCountries(countries)})
+      .then((r) => r.json())
+      .then((countries) => {setCountries(countries)})
+    fetch('http://localhost:9292/traveler_count')
+      .then(r => r.json())
+      .then(arr => setTravelerCountArray(arr))
 }, [])
 
   return (
     <div>
-      <CountryList countries={countries} setSelectedCountry={setSelectedCountry}/>
+      <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
       <TravelersInfo selectedCountry={selectedCountry}/>
     </div>
   );

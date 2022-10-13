@@ -15,16 +15,19 @@ function TravelersInfo({selectedCountry}) {
     const [selectedCountryName, setSelectedCountryName] = useState('')
 
     useEffect(() => {
+        // For getting the countries that are in the selected country
         fetch(`http://localhost:9292/travelers_in_country/${selectedCountry}`)
             .then((r) => r.json())
             .then(travelers_in_country => {
                 setTravelersInCountry(travelers_in_country)
             })
+        // For getting the country name of selected country
         fetch(`http://localhost:9292/findcountryname/${selectedCountry}`)
             .then(r => r.json())
             .then(country => setSelectedCountryName(country.country_name))
     }, [selectedCountry])
 
+    // For displaying the visits of selected traveler
     function handleClick(id) {
         console.log("traveler clicked")
         console.log('ID of traveler clicked:' + id)
