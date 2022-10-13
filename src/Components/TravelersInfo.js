@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 
-function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled}) {
+function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler}) {
 
     const [travelersInCountry, setTravelersInCountry] = useState([])
     const [visitsOfSelectedTravler, setVistsOfSelectedTraveler] = useState([])
@@ -38,6 +38,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled}) {
                 setVistsOfSelectedTraveler(visits)
             })
         setProfileEnabled(!profileEnabled)
+        setSelectedTraveler(id)
     }
 
     return(

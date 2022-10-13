@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import CountryList from './Components/CountryList';
 import TravelersInfo from './Components/TravelersInfo';
+import TravelerProfile from './Components/TravelerProfile';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
@@ -15,6 +16,7 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState(1)
   const [travelerCountArray, setTravelerCountArray] = useState([])
   const [profileEnabled, setProfileEnabled] = useState(false)
+  const [selectedTraveler, setSelectedTraveler] = useState(null)
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')
@@ -36,11 +38,16 @@ function App() {
     >
       <Tab eventKey="home" title="Countries">
         <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
-        <TravelersInfo selectedCountry={selectedCountry} setProfileEnabled={setProfileEnabled} profileEnabled={profileEnabled}/>
+        <TravelersInfo 
+          selectedCountry={selectedCountry} 
+          setProfileEnabled={setProfileEnabled} 
+          profileEnabled={profileEnabled}
+          setSelectedTraveler={setSelectedTraveler}
+          />
       </Tab>
       {profileEnabled ? 
         <Tab eventKey="profile" title="Traveler Profile">
-        {/* <Sonnet /> */}
+        <TravelerProfile selectedTraveler={selectedTraveler}/>
         </Tab> 
         :
         <Tab eventKey="profile" title="Traveler Profile" disabled>
