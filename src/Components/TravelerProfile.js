@@ -1,11 +1,13 @@
 import React from "react"
 import { useState, useEffect } from "react"
+import { Button } from "react-bootstrap"
+import Form from 'react-bootstrap/Form';
 
 function TravelerProfile({ selectedTraveler }) {
 
-    console.log(selectedTraveler)
-
     const [statistics, setStatistics] = useState('')
+    const [editing, setEditing] = useState(false)
+    const [name, setName] = useState(statistics.name)
 
     useEffect(() => {
         fetch(`http://localhost:9292/traveler_statistics/${selectedTraveler}`)
@@ -13,15 +15,49 @@ function TravelerProfile({ selectedTraveler }) {
             .then(data => {setStatistics(data)})
     }, [])
 
-    console.log(statistics)
+    function handleEditName() {
+        console.log('Ive been clicked')
+        setEditing(!editing)
+    }
+
+    function handleNameChange(event) {
+        setName(event.target.value)
+    }
+
+    function handleNameSubmit(e) {
+        e.preventDefault()
+        setEditing(!editing)
+
+        fetch(`http://localhost:9292/traveler_name/${selectedTraveler}`,{
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                traveler_name: name
+            })
+        })
+            .then(r => r.json())
+            .then(changedTraveler => console.log(changedTraveler))
+        
+    }
+
+    function nameInput() {
+        return (
+            <Form onSubmit={handleNameSubmit}>
+                <Form.Control placeholder="Edit name.." onChange={handleNameChange} value={name} name='name'/>
+            </Form>
+        )
+    }
 
 
 
     return (
         <div>
-            test -- This is the traveler profile<br></br>
-            Name: {statistics.name}<br></br>
+            Name: { !editing ? statistics.name : nameInput()} {!editing ? <Button variant="link" onClick={() => handleEditName()}>Edit</Button> : null}<br></br>
+            Nationality: {statistics.nationality}<br></br>
             Passport number: {statistics.passport}<br></br>
+            Current country: {statistics.current_country}<br></br>
             Total countries visited: {statistics.total_countries}<br></br> 
             <ul>
                 {statistics ? statistics.countries_visited_names.map(country => <li>{country}</li>) : null}
