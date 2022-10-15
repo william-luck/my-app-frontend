@@ -171,7 +171,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
             <ul>
                 {statistics ? statistics.shortest_visited_countries.map(country => <li>{country[0].country_name} ({statistics.shortest_visit} {statistics.shortest_visit > 1 ? 'days' : 'day'})</li>) : null}
             </ul>
-            <Button onClick={() => handleDelete()}>Test</Button>
+            <Button onClick={() => handleDelete()}>Delete Traveler from Tracker</Button>
         </div>
     )
 

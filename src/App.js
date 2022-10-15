@@ -2,12 +2,12 @@ import logo from './logo.svg';
 import CountryList from './Components/CountryList';
 import TravelersInfo from './Components/TravelersInfo';
 import TravelerProfile from './Components/TravelerProfile';
+import NewTravelerForm from './Components/NewTravelerForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Container } from 'react-bootstrap';
-
 
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
         </Tab>
         }
       <Tab eventKey="longer-tab" title="Add Traveler">
-        {/* <Sonnet /> */}
+        <NewTravelerForm countries={countries}/>
       </Tab>
       <Tab eventKey="longer-tab2" title="Add Visit">
         {/* <Sonnet /> */}
