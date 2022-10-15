@@ -58,10 +58,10 @@ function App() {
         {/* <Sonnet /> */}
         </Tab>
         }
-      <Tab eventKey="longer-tab" title="Add Traveler">
-        <NewTravelerForm countries={countries}/>
+      <Tab eventKey="add-traveler" title="Add Traveler">
+        <NewTravelerForm countries={countries} setKey={setKey}/>
       </Tab>
-      <Tab eventKey="longer-tab2" title="Add Visit">
+      <Tab eventKey="add-visit" title="Add Visit">
         {/* <Sonnet /> */}
       </Tab>
     </Tabs>

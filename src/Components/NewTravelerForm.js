@@ -2,14 +2,16 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 
-function NewTravelerForm({ countries }) {
+function NewTravelerForm({ countries, setKey }) {
 
     const [formData, setFormData] = useState({
         traveler_name: '',
         passport_number: '',
         nationality: '',
     })
+    const [error, setError] = useState(null)
 
     function handleChange(e) {
     
@@ -24,19 +26,37 @@ function NewTravelerForm({ countries }) {
     function handleSubmit(e) {
         e.preventDefault()
 
-        fetch ('http://localhost:9292/add_traveler', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(r => r.json())
-            .then(createdTraveler => console.log(createdTraveler))
+        if (formData.passport_number.length !== 9) {
+            setError(true)
+        } else {
+            fetch ('http://localhost:9292/add_traveler', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(r => r.json())
+                .then(createdTraveler => console.log(createdTraveler))
+
+            setKey('add-visit')
+        }   
+    }
+
+    function passportError() {
+        return (
+            <Alert variant="danger" onClose={() => setError(null)} dismissible>
+                <Alert.Heading>Error</Alert.Heading>
+                <p>
+                Please enter a nine-digit passport number.
+                </p>
+            </Alert>
+        )
     }
     
     return (
     <>
+        {error ? passportError() : null}
         <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Traveler Name</Form.Label>
@@ -51,10 +71,6 @@ function NewTravelerForm({ countries }) {
                 <Form.Group className="mb-3">
                     <Form.Label>Nationality</Form.Label>
                     <Form.Select onChange={handleChange} value={formData.nationality} name="nationality">
-                        {/* <option>Select..</option>
-                        <option>Fiction</option>
-                        <option>Non-fiction</option>
-                        <option>Memoir</option> */}
                         {countries.map(country => {
                             return <option>{country.country_name}</option>
                         })}
