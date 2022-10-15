@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 
-function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray, setDeleteAlert }) {
+function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray, setDeleteAlert, setProfileEnabled }) {
 
     const [statistics, setStatistics] = useState('')
     const [editing, setEditing] = useState(false)
@@ -98,6 +98,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         setKey('home')
         setSelectedCountry(1)
         setDeleteAlert(() => deleteAlert())
+        setProfileEnabled(false)
 
         // From this page we have the selected traveler ID... 
         // Get the current country, find it's ID, remove -1 from the index of where it came from? 
