@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 
-function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray }) {
+function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray, setDeleteAlert }) {
 
     const [statistics, setStatistics] = useState('')
     const [editing, setEditing] = useState(false)
@@ -97,8 +97,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
 
         setKey('home')
         setSelectedCountry(1)
-
-        
+        setDeleteAlert(() => deleteAlert())
 
         // From this page we have the selected traveler ID... 
         // Get the current country, find it's ID, remove -1 from the index of where it came from? 
@@ -126,6 +125,17 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
                 <Alert.Heading>Error</Alert.Heading>
                 <p>
                 Please enter a nine-digit passport number.
+                </p>
+            </Alert>
+        )
+    }
+
+    function deleteAlert() {
+        return (
+            <Alert variant="warning" onClose={() => setDeleteAlert(null)}>
+                <Alert.Heading>Traveler Deleted</Alert.Heading>
+                <p>
+                Please select another country to display travelers.
                 </p>
             </Alert>
         )

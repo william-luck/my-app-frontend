@@ -18,6 +18,7 @@ function App() {
   const [profileEnabled, setProfileEnabled] = useState(false)
   const [selectedTraveler, setSelectedTraveler] = useState(null)
   const [key, setKey] = useState('home')
+  const [deleteAlert, setDeleteAlert] = useState(null)
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')
@@ -39,17 +40,18 @@ function App() {
       justify
     >
       <Tab eventKey="home" title="Countries">
-        <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray}/>
+        <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray} setDeleteAlert={setDeleteAlert}/>
         <TravelersInfo 
           selectedCountry={selectedCountry} 
           setProfileEnabled={setProfileEnabled} 
           profileEnabled={profileEnabled}
           setSelectedTraveler={setSelectedTraveler}
+          deleteAlert={deleteAlert}
           />
       </Tab>
       {profileEnabled ? 
         <Tab eventKey="profile" title="Traveler Profile">
-        <TravelerProfile selectedTraveler={selectedTraveler} travelerCountArray={travelerCountArray} setKey={setKey} setSelectedCountry={setSelectedCountry} setTravelerCountArray={setTravelerCountArray}/>
+        <TravelerProfile selectedTraveler={selectedTraveler} travelerCountArray={travelerCountArray} setKey={setKey} setSelectedCountry={setSelectedCountry} setTravelerCountArray={setTravelerCountArray} setDeleteAlert={setDeleteAlert}/>
         </Tab> 
         :
         <Tab eventKey="profile" title="Traveler Profile" disabled>

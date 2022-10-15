@@ -4,12 +4,13 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 
 
-function CountryList({countries, setSelectedCountry, travelerCountArray}) {
+function CountryList({countries, setSelectedCountry, travelerCountArray, setDeleteAlert}) {
 
     function handleClick(id) {
         console.log('Clicked country')
         setSelectedCountry(id)
         console.log(id)
+        setDeleteAlert(null)
     }
 
     return(

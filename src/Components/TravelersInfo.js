@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 
-function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler}) {
+function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert }) {
 
     const [travelersInCountry, setTravelersInCountry] = useState([])
     const [visitsOfSelectedTravler, setVistsOfSelectedTraveler] = useState([])
@@ -42,6 +42,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
     }
 
     return(
+        !deleteAlert ? 
         <div>
             <Container>
             <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
@@ -83,6 +84,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
             </Container>
 
         </div>
+        : deleteAlert            
     )
 }
 
