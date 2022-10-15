@@ -7,18 +7,17 @@ function TravelerProfile({ selectedTraveler }) {
 
     const [statistics, setStatistics] = useState('')
     const [editing, setEditing] = useState(false)
+    const [passportEditing, setPassportEditing] = useState(false)
     const [name, setName] = useState(statistics.name)
+    const [passportNumber, setPassportNumber] = useState(statistics.passport)
+    const [dataChange, setDataChange] = useState(true)
 
     useEffect(() => {
         fetch(`http://localhost:9292/traveler_statistics/${selectedTraveler}`)
             .then(r => r.json())
             .then(data => {setStatistics(data)})
-    }, [])
+    }, [dataChange])
 
-    function handleEditName() {
-        console.log('Ive been clicked')
-        setEditing(!editing)
-    }
 
     function handleNameChange(event) {
         setName(event.target.value)
@@ -39,7 +38,32 @@ function TravelerProfile({ selectedTraveler }) {
         })
             .then(r => r.json())
             .then(changedTraveler => console.log(changedTraveler))
+            .then(() => setDataChange(!dataChange))
+    }
+
+    function handlePassportChange(event) {
+        setPassportNumber(event.target.value)
         
+    }
+
+    function handlePassportSubmit(e) {
+        e.preventDefault()
+        console.log('changed passport number')
+
+        setPassportEditing(!passportEditing)
+
+        fetch(`http://localhost:9292/traveler_passport/${selectedTraveler}`,{
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                passport_number: passportNumber
+            })
+        })
+            .then(r => r.json())
+            .then(changedTraveler => console.log(changedTraveler))
+            .then(() => setDataChange(!dataChange))
     }
 
     function nameInput() {
@@ -50,13 +74,21 @@ function TravelerProfile({ selectedTraveler }) {
         )
     }
 
+    function passportInput() {
+        return (
+            <Form onSubmit={handlePassportSubmit}>
+                <Form.Control placeholder="Edit passport number.." onChange={handlePassportChange} value={passportNumber} name='passport number'/>
+            </Form>
+        )
+    }
+
 
 
     return (
         <div>
-            Name: { !editing ? statistics.name : nameInput()} {!editing ? <Button variant="link" onClick={() => handleEditName()}>Edit</Button> : null}<br></br>
+            Name: { !editing ? statistics.name : nameInput()} {!editing ? <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button> : null}<br></br>
+            Passport number: { !passportEditing ? statistics.passport : passportInput()} {!passportEditing ? <Button variant="link" onClick={() => setPassportEditing(!passportEditing)}>Edit</Button> : null}<br></br>
             Nationality: {statistics.nationality}<br></br>
-            Passport number: {statistics.passport}<br></br>
             Current country: {statistics.current_country}<br></br>
             Total countries visited: {statistics.total_countries}<br></br> 
             <ul>
