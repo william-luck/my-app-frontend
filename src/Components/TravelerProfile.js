@@ -2,6 +2,9 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
+
+
 
 function TravelerProfile({ selectedTraveler }) {
 
@@ -11,6 +14,7 @@ function TravelerProfile({ selectedTraveler }) {
     const [name, setName] = useState(statistics.name)
     const [passportNumber, setPassportNumber] = useState(statistics.passport)
     const [dataChange, setDataChange] = useState(true)
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         fetch(`http://localhost:9292/traveler_statistics/${selectedTraveler}`)
@@ -48,22 +52,32 @@ function TravelerProfile({ selectedTraveler }) {
 
     function handlePassportSubmit(e) {
         e.preventDefault()
-        console.log('changed passport number')
 
-        setPassportEditing(!passportEditing)
+        if (passportNumber.length !== 9) {
+            setError(true)
+        } else {
+            console.log('changed passport number')
+            setError(false)
 
-        fetch(`http://localhost:9292/traveler_passport/${selectedTraveler}`,{
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                passport_number: passportNumber
+            setPassportEditing(!passportEditing)
+
+            fetch(`http://localhost:9292/traveler_passport/${selectedTraveler}`,{
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    passport_number: passportNumber
+                })
             })
-        })
-            .then(r => r.json())
-            .then(changedTraveler => console.log(changedTraveler))
-            .then(() => setDataChange(!dataChange))
+                .then(r => r.json())
+                .then(changedTraveler => console.log(changedTraveler))
+                .then(() => setDataChange(!dataChange))
+
+            }
+
+
+        
     }
 
     function nameInput() {
@@ -82,10 +96,22 @@ function TravelerProfile({ selectedTraveler }) {
         )
     }
 
+    function passportError() {
+        return (
+            <Alert variant="danger" onClose={() => setError(false)} dismissible>
+                <Alert.Heading>Error</Alert.Heading>
+                <p>
+                Please enter a nine-digit passport number.
+                </p>
+            </Alert>
+        )
+    }
+
 
 
     return (
         <div>
+            {error ? passportError() : null}
             Name: { !editing ? statistics.name : nameInput()} {!editing ? <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button> : null}<br></br>
             Passport number: { !passportEditing ? statistics.passport : passportInput()} {!passportEditing ? <Button variant="link" onClick={() => setPassportEditing(!passportEditing)}>Edit</Button> : null}<br></br>
             Nationality: {statistics.nationality}<br></br>
