@@ -17,6 +17,7 @@ function App() {
   const [travelerCountArray, setTravelerCountArray] = useState([])
   const [profileEnabled, setProfileEnabled] = useState(false)
   const [selectedTraveler, setSelectedTraveler] = useState(null)
+  const [key, setKey] = useState('home')
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')
@@ -31,8 +32,9 @@ function App() {
     <Container>
 
     <Tabs
-      defaultActiveKey="profile"
       id="justify-tab-example"
+      activeKey={key}
+      onSelect={k => setKey(k)}
       className="mb-3"
       justify
     >
@@ -47,7 +49,7 @@ function App() {
       </Tab>
       {profileEnabled ? 
         <Tab eventKey="profile" title="Traveler Profile">
-        <TravelerProfile selectedTraveler={selectedTraveler} travelerCountArray={travelerCountArray}/>
+        <TravelerProfile selectedTraveler={selectedTraveler} travelerCountArray={travelerCountArray} setKey={setKey}/>
         </Tab> 
         :
         <Tab eventKey="profile" title="Traveler Profile" disabled>
