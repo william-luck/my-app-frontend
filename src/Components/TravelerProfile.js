@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 
-function TravelerProfile({ selectedTraveler }) {
+function TravelerProfile({ selectedTraveler, travelerCountArray }) {
 
     const [statistics, setStatistics] = useState('')
     const [editing, setEditing] = useState(false)
@@ -80,6 +80,25 @@ function TravelerProfile({ selectedTraveler }) {
         
     }
 
+    function handleDelete() {
+        fetch(`http://localhost:9292/traveler_delete/${selectedTraveler}`, {
+            method: "DELETE",
+        })
+            .then(r => r.json())
+            .then(info => console.log(info))
+        // For getting the id of the current country the traveler was deleted from, to change count by each country of main page
+        fetch(`http://localhost:9292/deleted_traveler_country/${selectedTraveler}`)
+            .then(r => r.json())
+            .then(country => {
+                travelerCountArray[country.id-1] = travelerCountArray[country.id-1] - 1;
+            })
+
+        
+
+        // From this page we have the selected traveler ID... 
+        // Get the current country, find it's ID, remove -1 from the index of where it came from? 
+    }
+
     function nameInput() {
         return (
             <Form onSubmit={handleNameSubmit}>
@@ -136,6 +155,7 @@ function TravelerProfile({ selectedTraveler }) {
             <ul>
                 {statistics ? statistics.shortest_visited_countries.map(country => <li>{country[0].country_name} ({statistics.shortest_visit} {statistics.shortest_visit > 1 ? 'days' : 'day'})</li>) : null}
             </ul>
+            <Button onClick={() => handleDelete()}>Test</Button>
         </div>
     )
 
