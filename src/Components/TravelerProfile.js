@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 
-function TravelerProfile({ selectedTraveler, travelerCountArray, setKey }) {
+function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray }) {
 
     const [statistics, setStatistics] = useState('')
     const [editing, setEditing] = useState(false)
@@ -90,10 +90,13 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey }) {
         fetch(`http://localhost:9292/deleted_traveler_country/${selectedTraveler}`)
             .then(r => r.json())
             .then(country => {
-                travelerCountArray[country.id-1] = travelerCountArray[country.id-1] - 1;
+                let modifiedTravelerCount = [...travelerCountArray]
+                modifiedTravelerCount[country.id-1] = modifiedTravelerCount[country.id-1] - 1;
+                setTravelerCountArray(modifiedTravelerCount)
             })
 
         setKey('home')
+        setSelectedCountry(1)
 
         
 

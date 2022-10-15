@@ -49,7 +49,7 @@ function App() {
       </Tab>
       {profileEnabled ? 
         <Tab eventKey="profile" title="Traveler Profile">
-        <TravelerProfile selectedTraveler={selectedTraveler} travelerCountArray={travelerCountArray} setKey={setKey}/>
+        <TravelerProfile selectedTraveler={selectedTraveler} travelerCountArray={travelerCountArray} setKey={setKey} setSelectedCountry={setSelectedCountry} setTravelerCountArray={setTravelerCountArray}/>
         </Tab> 
         :
         <Tab eventKey="profile" title="Traveler Profile" disabled>
