@@ -7,8 +7,10 @@ import Alert from 'react-bootstrap/Alert';
 function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
 
     const [formData, setFormData] = useState({})
+    const [newVisit, setNewVisit] = useState(false)
 
     useEffect(() => {
+        
         setFormData({
             passport_number: '',
             accomodation_name: '',
@@ -18,14 +20,14 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
             country_name: 'Afghanistan',
             cost_per_night: '',
         })
-        
+
         if (newTraveler) {
             setFormData({
                 ...formData,
                 passport_number: newTraveler.passport_number
             })
         }
-    }, [newTraveler])
+    }, [newTraveler, newVisit])
 
     function handleChange(e) {
         if (e.target.name !== 'cost_per_night') {
@@ -38,6 +40,15 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
                 ...formData,
                 [e.target.name]: parseInt(e.target.value)
             })
+        }
+
+        if (e.target.name === 'passport_number') {
+            if (e.target.value.length === 9) {
+                // Fetch request to look up name of traveler.
+                fetch(`http://localhost:9292/lookup_traveler/${e.target.value}`)
+                    .then(r => r.json())
+                    .then(traveler => console.log(traveler))
+            }
         }
     }
 
@@ -57,6 +68,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
         
         setKey('home')
         setNewTraveler('')
+        setNewVisit(!newVisit)
     }
 
     function newTravelerAddedAlert() {
@@ -85,7 +97,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
 
                 <Form.Group className="mb-3">
                     <Form.Label>Accomodation name: </Form.Label>
-                    <Form.Control placeholder="Enter the name of the accomodation.." onChange={handleChange} value={formData.accomodation_name} name='accomodation_name'/>
+                    <Form.Control placeholder="Enter the name of the accomodation.." onChange={handleChange} value={formData.accomodation_name} name='accomodation_name' onSelect={() => console.log('selected')} o/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
