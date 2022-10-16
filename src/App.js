@@ -20,7 +20,7 @@ function App() {
   const [selectedTraveler, setSelectedTraveler] = useState(null)
   const [key, setKey] = useState('home')
   const [deleteAlert, setDeleteAlert] = useState(null)
-  const [newTraveler, setNewTraveler] = useState(false)
+  const [newTraveler, setNewTraveler] = useState('')
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')

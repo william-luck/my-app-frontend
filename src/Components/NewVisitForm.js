@@ -6,15 +6,19 @@ import Alert from 'react-bootstrap/Alert';
 
 function NewVisitForm({ countries, newTraveler, setNewTraveler }) {
 
-    const [formData, setFormData] = useState({
-        passport_number: '',
-        accomodation_name: '',
-        accomodation_type: 'Hotel',
-        address: '',
-        city: '',
-        country_name: 'Afghanistan',
-        cost_per_night: '',
-    })
+    const [formData, setFormData] = useState({})
+
+    useEffect(() => {
+        setFormData({
+            passport_number: newTraveler.passport_number,
+            accomodation_name: '',
+            accomodation_type: 'Hotel',
+            address: '',
+            city: '',
+            country_name: 'Afghanistan',
+            cost_per_night: '',
+        })
+    }, [newTraveler])
 
     function handleChange(e) {
         if (e.target.name !== 'cost_per_night') {
@@ -47,10 +51,10 @@ function NewVisitForm({ countries, newTraveler, setNewTraveler }) {
 
     function newTravelerAddedAlert() {
         return (
-            <Alert variant="warning" dismissible onClose={() => setNewTraveler(false)}>
-                <Alert.Heading>New Traveler Added.</Alert.Heading>
+            <Alert variant="warning" >
+                <Alert.Heading>{newTraveler.traveler_name} has been added to the database.</Alert.Heading>
                 <p>
-                Please add a visit for the newly created traveler.
+                Please add a visit for the newly created traveler. {newTraveler.traveler_name}'s passport has been filled in.
                 </p>
             </Alert>
         )

@@ -37,10 +37,11 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
                 body: JSON.stringify(formData)
             })
                 .then(r => r.json())
-                .then(createdTraveler => console.log(createdTraveler))
+                .then(createdTraveler => setNewTraveler(createdTraveler))
+                // .then(createdTraveler => setNewTraveler(createdTraveler))
 
             setKey('add-visit')
-            setNewTraveler(true)
+            // setNewTraveler(formData.passport_number)
 
         }   
     }
