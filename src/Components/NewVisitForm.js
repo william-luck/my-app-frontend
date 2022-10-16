@@ -28,6 +28,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
                 ...formData,
                 passport_number: newTraveler.passport_number
             })
+            setMatchingTraveler('')
         }
     }, [newTraveler, newVisit])
 
@@ -50,9 +51,8 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
                 fetch(`http://localhost:9292/lookup_traveler/${e.target.value}`)
                     .then(r => r.json())
                     .then(traveler => setMatchingTraveler(traveler))
-                    .then({
-
-                    })
+            } else {
+                setMatchingTraveler('')
             }
         }
     }
@@ -81,7 +81,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
             <Alert variant="warning" >
                 <Alert.Heading>{newTraveler.traveler_name} has been added to the database.</Alert.Heading>
                 <p>
-                Please add a visit for the newly created traveler. {newTraveler.traveler_name}'s passport has been filled in.
+                Please add a visit for the newly created traveler to continue.
                 </p>
             </Alert>
         )
@@ -92,11 +92,17 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
             {matchingTraveler ? <MatchingTravelerAlert matchingTraveler={matchingTraveler}/> : null}
             {newTraveler ? newTravelerAddedAlert() : null}
             <Form onSubmit={handleSubmit}>
+                {newTraveler ? 
+                <Form.Group className="mb-3">
+                    <Form.Label>Passport number</Form.Label>
+                    <Form.Control placeholder="Who is staying at the accomodation?" onChange={handleChange} value={formData.passport_number} name='passport_number' disabled/>
+                </Form.Group>
+                :
                 <Form.Group className="mb-3">
                     <Form.Label>Passport number</Form.Label>
                     <Form.Control placeholder="Who is staying at the accomodation?" onChange={handleChange} value={formData.passport_number} name='passport_number'/>
-                </Form.Group>
-
+                </Form.Group> 
+                }
                 <Form.Group className="mb-3">
                     <Form.Label>Accomodation name: </Form.Label>
                     <Form.Control placeholder="Enter the name of the accomodation.." onChange={handleChange} value={formData.accomodation_name} name='accomodation_name' onSelect={() => console.log('selected')} o/>
