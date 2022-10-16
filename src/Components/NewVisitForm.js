@@ -2,8 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 
-function NewVisitForm({ countries }) {
+function NewVisitForm({ countries, newTraveler, setNewTraveler }) {
 
     const [formData, setFormData] = useState({
         passport_number: '',
@@ -44,10 +45,24 @@ function NewVisitForm({ countries }) {
                 .then(createdVisit => console.log(createdVisit))
     }
 
+    function newTravelerAddedAlert() {
+        return (
+            <Alert variant="warning" dismissible onClose={() => setNewTraveler(false)}>
+                <Alert.Heading>New Traveler Added.</Alert.Heading>
+                <p>
+                Please add a visit for the newly created traveler.
+                </p>
+            </Alert>
+        )
+        
+    }
+
     
     
     return (
         <>
+            {/* {newTravelerAddedAlert()} */}
+            {newTraveler ? newTravelerAddedAlert() : null}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Passport number</Form.Label>

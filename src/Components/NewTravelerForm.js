@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 
-function NewTravelerForm({ countries, setKey }) {
+function NewTravelerForm({ countries, setKey, setNewTraveler }) {
 
     const [formData, setFormData] = useState({
         traveler_name: '',
@@ -40,7 +40,7 @@ function NewTravelerForm({ countries, setKey }) {
                 .then(createdTraveler => console.log(createdTraveler))
 
             setKey('add-visit')
-            // Display message in new visit... 
+            setNewTraveler(true)
 
         }   
     }

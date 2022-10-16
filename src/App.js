@@ -20,6 +20,7 @@ function App() {
   const [selectedTraveler, setSelectedTraveler] = useState(null)
   const [key, setKey] = useState('home')
   const [deleteAlert, setDeleteAlert] = useState(null)
+  const [newTraveler, setNewTraveler] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:9292/countries')
@@ -60,10 +61,10 @@ function App() {
         </Tab>
         }
       <Tab eventKey="add-traveler" title="Add Traveler">
-        <NewTravelerForm countries={countries} setKey={setKey}/>
+        <NewTravelerForm countries={countries} setKey={setKey} setNewTraveler={setNewTraveler}/>
       </Tab>
       <Tab eventKey="add-visit" title="Add Visit">
-        <NewVisitForm countries={countries}/>
+        <NewVisitForm countries={countries} newTraveler={newTraveler} setNewTraveler={setNewTraveler}/>
       </Tab>
     </Tabs>
 
