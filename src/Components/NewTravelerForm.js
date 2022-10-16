@@ -46,7 +46,7 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
                 passport_number: '',
                 nationality: '',
             })
-            // setNewTraveler(formData.passport_number)
+            
 
         }   
     }

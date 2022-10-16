@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
+import MatchingTravelerAlert from "./MatchingTravelerAlert";
 
 function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
 
     const [formData, setFormData] = useState({})
     const [newVisit, setNewVisit] = useState(false)
+    const [matchingTraveler, setMatchingTraveler] = useState('')
 
     useEffect(() => {
         
@@ -47,7 +49,10 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
                 // Fetch request to look up name of traveler.
                 fetch(`http://localhost:9292/lookup_traveler/${e.target.value}`)
                     .then(r => r.json())
-                    .then(traveler => console.log(traveler))
+                    .then(traveler => setMatchingTraveler(traveler))
+                    .then({
+
+                    })
             }
         }
     }
@@ -80,14 +85,11 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
                 </p>
             </Alert>
         )
-        
     }
-
-    
     
     return (
         <>
-            {/* {newTravelerAddedAlert()} */}
+            {matchingTraveler ? <MatchingTravelerAlert matchingTraveler={matchingTraveler}/> : null}
             {newTraveler ? newTravelerAddedAlert() : null}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
