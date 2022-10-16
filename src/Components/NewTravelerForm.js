@@ -40,6 +40,8 @@ function NewTravelerForm({ countries, setKey }) {
                 .then(createdTraveler => console.log(createdTraveler))
 
             setKey('add-visit')
+            // Display message in new visit... 
+
         }   
     }
 

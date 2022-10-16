@@ -3,6 +3,7 @@ import CountryList from './Components/CountryList';
 import TravelersInfo from './Components/TravelersInfo';
 import TravelerProfile from './Components/TravelerProfile';
 import NewTravelerForm from './Components/NewTravelerForm';
+import NewVisitForm from './Components/NewVisitForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
@@ -62,7 +63,7 @@ function App() {
         <NewTravelerForm countries={countries} setKey={setKey}/>
       </Tab>
       <Tab eventKey="add-visit" title="Add Visit">
-        {/* <Sonnet /> */}
+        <NewVisitForm countries={countries}/>
       </Tab>
     </Tabs>
 
