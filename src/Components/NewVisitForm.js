@@ -4,13 +4,13 @@ import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 
-function NewVisitForm({ countries, newTraveler, setNewTraveler }) {
+function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
 
     const [formData, setFormData] = useState({})
 
     useEffect(() => {
         setFormData({
-            passport_number: newTraveler.passport_number,
+            passport_number: '',
             accomodation_name: '',
             accomodation_type: 'Hotel',
             address: '',
@@ -18,6 +18,13 @@ function NewVisitForm({ countries, newTraveler, setNewTraveler }) {
             country_name: 'Afghanistan',
             cost_per_night: '',
         })
+        
+        if (newTraveler) {
+            setFormData({
+                ...formData,
+                passport_number: newTraveler.passport_number
+            })
+        }
     }, [newTraveler])
 
     function handleChange(e) {
@@ -47,6 +54,9 @@ function NewVisitForm({ countries, newTraveler, setNewTraveler }) {
             })
                 .then(r => r.json())
                 .then(createdVisit => console.log(createdVisit))
+        
+        setKey('home')
+        setNewTraveler('')
     }
 
     function newTravelerAddedAlert() {

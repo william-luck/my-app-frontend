@@ -41,6 +41,11 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
                 // .then(createdTraveler => setNewTraveler(createdTraveler))
 
             setKey('add-visit')
+            setFormData({
+                traveler_name: '',
+                passport_number: '',
+                nationality: '',
+            })
             // setNewTraveler(formData.passport_number)
 
         }   
