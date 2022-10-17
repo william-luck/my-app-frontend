@@ -31,6 +31,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
             getVisits(selectedTraveler)
 
         }
+
         
     }, [selectedCountry])
 
@@ -41,9 +42,10 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         
         getVisits(id)
 
-        setProfileEnabled(!profileEnabled)
         setSelectedTraveler(id)
         setUpdatedVisitor(false)
+        setProfileEnabled(true)
+        // setTimeout(setProfileEnabled(!profileEnabled), 500)
     }
 
     function getVisits(id) {

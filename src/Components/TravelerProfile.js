@@ -20,7 +20,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         fetch(`http://localhost:9292/traveler_statistics/${selectedTraveler}`)
             .then(r => r.json())
             .then(data => {setStatistics(data)})
-    }, [dataChange])
+    }, [dataChange, selectedTraveler])
 
 
     function handleNameChange(event) {
