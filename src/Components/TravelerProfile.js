@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 
-function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray, setDeleteAlert, setProfileEnabled }) {
+function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray, setDeleteAlert, setProfileEnabled, setSelectedTraveler }) {
 
     const [statistics, setStatistics] = useState('')
     const [editing, setEditing] = useState(false)
@@ -41,7 +41,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
             })
         })
             .then(r => r.json())
-            .then(changedTraveler => console.log(changedTraveler))
             .then(() => setDataChange(!dataChange))
     }
 
@@ -56,7 +55,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         if (passportNumber.length !== 9) {
             setError(true)
         } else {
-            console.log('changed passport number')
             setError(false)
 
             setPassportEditing(!passportEditing)
@@ -71,13 +69,8 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
                 })
             })
                 .then(r => r.json())
-                .then(changedTraveler => console.log(changedTraveler))
                 .then(() => setDataChange(!dataChange))
-
             }
-
-
-        
     }
 
     function handleDelete() {
@@ -85,8 +78,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
             method: "DELETE",
         })
             .then(r => r.json())
-            .then(info => console.log(info))
-        // For getting the id of the current country the traveler was deleted from, to change count by each country of main page
+        
         fetch(`http://localhost:9292/deleted_traveler_country/${selectedTraveler}`)
             .then(r => r.json())
             .then(country => {
@@ -100,8 +92,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         setDeleteAlert(() => deleteAlert())
         setProfileEnabled(false)
 
-        // From this page we have the selected traveler ID... 
-        // Get the current country, find it's ID, remove -1 from the index of where it came from? 
     }
 
     function nameInput() {
@@ -141,8 +131,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
             </Alert>
         )
     }
-
-
 
     return (
         <div>

@@ -48,7 +48,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
 
         if (e.target.name === 'passport_number') {
             if (e.target.value.length === 9) {
-                // Fetch request to look up name of traveler.
                 fetch(`http://localhost:9292/lookup_traveler/${e.target.value}`)
                     .then(r => r.json())
                     .then(traveler => setMatchingTraveler(traveler))
@@ -60,7 +59,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(formData)
 
         fetch ('http://localhost:9292/add_visit', {
                 method: 'POST',
@@ -77,18 +75,30 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
                     // Adding count of traveler to new country
                     modifiedTravelerCount[createdVisit.country_id-1] = modifiedTravelerCount[createdVisit.country_id-1] + 1;
                     setTravelerCountArray(modifiedTravelerCount)
+
                     setSelectedCountry(createdVisit.country_id)
                     setSelectedTraveler(createdVisit.traveler_id)
                     
                 })
                 .then(() => {
-                    setKey('home')
+                    // For clearing passport auto fill-in
                     setNewTraveler('')
+                    // For clearing form data
                     setNewVisit(!newVisit)
+                    // Clears alert from top of the page
                     setMatchingTraveler('')
-                    setUpdatedVisitor(true)
+                    // For rednering new visit alert on main page
+                    setUpdatedVisitor(matchingTraveler)
                 })
-    }
+                .then(() => {
+                    if (newTraveler) {
+                        setKey('profile')
+                        setNewTraveler('')
+                    } else {
+                        setKey('home')
+                    }
+                })
+            }
 
     function newTravelerAddedAlert() {
         return (
@@ -119,7 +129,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
                 }
                 <Form.Group className="mb-3">
                     <Form.Label>Accomodation name: </Form.Label>
-                    <Form.Control placeholder="Enter the name of the accomodation.." onChange={handleChange} value={formData.accomodation_name} name='accomodation_name' onSelect={() => console.log('selected')} o/>
+                    <Form.Control placeholder="Enter the name of the accomodation.." onChange={handleChange} value={formData.accomodation_name} name='accomodation_name' />
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -155,8 +165,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
                     <Form.Label>Cost per night: </Form.Label>
                     <Form.Control placeholder="$" onChange={handleChange} value={formData.cost_per_night} name='cost_per_night'/>
                 </Form.Group>
-
-                
 
                 <Button variant="primary" type="submit">
                     Submit

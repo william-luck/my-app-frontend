@@ -14,13 +14,10 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
     const [error, setError] = useState(null)
 
     function handleChange(e) {
-    
         setFormData({
             ...formData,
             [e.target.name]: e.target.value 
         })
-
-        console.log(formData)
     }
 
     function handleSubmit(e) {
@@ -38,7 +35,6 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
             })
                 .then(r => r.json())
                 .then(createdTraveler => setNewTraveler(createdTraveler))
-                // .then(createdTraveler => setNewTraveler(createdTraveler))
 
             setKey('add-visit')
             setFormData({
@@ -46,8 +42,6 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
                 passport_number: '',
                 nationality: '',
             })
-            
-
         }   
     }
 
@@ -88,7 +82,6 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
-
             </Form>
     </>
     )

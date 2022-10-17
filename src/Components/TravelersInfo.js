@@ -22,46 +22,42 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
             .then(travelers_in_country => {
                 setTravelersInCountry(travelers_in_country)
             })
+
         // For getting the country name of selected country
         fetch(`http://localhost:9292/findcountryname/${selectedCountry}`)
             .then(r => r.json())
             .then(country => setSelectedCountryName(country.country_name))
         
+        // Gets the visits of selected traveler
         if (selectedTraveler) {
             getVisits(selectedTraveler)
-
         }
 
-        
+        // Makes these requests every time the selected country changes
     }, [selectedCountry])
 
     // For displaying the visits of selected traveler
     function handleClick(id) {
-        console.log("traveler clicked")
-        console.log('ID of traveler clicked:' + id)
-        
         getVisits(id)
-
         setSelectedTraveler(id)
+        // Removes new visit alert
         setUpdatedVisitor(false)
+        // Enables the profile tab , which is not enabled until first traveler is clicked 
         setProfileEnabled(true)
-        // setTimeout(setProfileEnabled(!profileEnabled), 500)
     }
 
     function getVisits(id) {
         fetch(`http://localhost:9292/visits/${id}`)
             .then((r) => r.json())
-            .then((visits) => {
-                console.log(visits)
-                setVistsOfSelectedTraveler(visits)
-            })
+            .then((visits) => setVistsOfSelectedTraveler(visits))
     }
 
+    // Displays on new visit added to database.
     function newVisitAlert(visit) {
 
         return (
             <Alert variant="warning" dismissible onClose={() => setUpdatedVisitor(false)}>
-                <Alert.Heading>A new visit has been recorded for {visit} in {selectedCountryName} </Alert.Heading>
+                <Alert.Heading>A new visit has been recorded for {visit.name} in {selectedCountryName} </Alert.Heading>
             </Alert>
         )
     }
@@ -70,17 +66,13 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         !deleteAlert ? 
         <div>
             <Container>
-                {/* {true ? newVisitAlert('') : null } */}
-            <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+            {updatedVisitor ? newVisitAlert(updatedVisitor) : null}
+            <Tab.Container defaultActiveKey="#link1">
                 <Row>
                     <Col sm={4}>
                     <ListGroup>
                         {travelersInCountry.map((traveler => {
-                            return <ListGroup.Item 
-                                onClick={() => handleClick(traveler.id)} 
-                                // key={traveler.id}
-                                href={traveler.id}
-                                    >{traveler.traveler_name}</ListGroup.Item>
+                            return <ListGroup.Item onClick={() => handleClick(traveler.id)} href={traveler.id}>{traveler.traveler_name}</ListGroup.Item>
                         }))}
                     </ListGroup>
                     </Col>
@@ -88,8 +80,6 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
                     <Tab.Content>
                         {travelersInCountry.map(traveler => {
                             return <Tab.Pane eventKey={traveler.id}>
-                                {/* {newVisitAlert(traveler.traveler_name)} */}
-                                {updatedVisitor ? newVisitAlert(traveler.traveler_name) : null}
                                 {traveler.traveler_name}'s vists in {selectedCountryName}
                                 <ul>
                                     {visitsOfSelectedTravler.filter(visit => visit.country_id === selectedCountry).map(visit => {
