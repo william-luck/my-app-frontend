@@ -32,6 +32,12 @@ function App() {
       .then(arr => setTravelerCountArray(arr))
 }, [])
 
+  // function handleCountChange(id) {
+  //     let modifiedTravelerCount = [...travelerCountArray]
+  //     modifiedTravelerCount[country.id-1] = modifiedTravelerCount[country.id-1] - 1;
+  //     setTravelerCountArray(modifiedTravelerCount)
+  // }
+
   return (
     <Container>
 
@@ -61,10 +67,10 @@ function App() {
         </Tab>
         }
       <Tab eventKey="add-traveler" title="Add Traveler">
-        <NewTravelerForm countries={countries} setKey={setKey} setNewTraveler={setNewTraveler}/>
+        <NewTravelerForm countries={countries} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray}/>
       </Tab>
       <Tab eventKey="add-visit" title="Add Visit">
-        <NewVisitForm countries={countries} newTraveler={newTraveler} setKey={setKey} setNewTraveler={setNewTraveler}/>
+        <NewVisitForm countries={countries} newTraveler={newTraveler} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray} setTravelerCountArray={setTravelerCountArray}/>
       </Tab>
     </Tabs>
 

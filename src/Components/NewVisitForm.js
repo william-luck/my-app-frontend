@@ -5,11 +5,12 @@ import { Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import MatchingTravelerAlert from "./MatchingTravelerAlert";
 
-function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
+function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, travelerCountArray, setTravelerCountArray }) {
 
     const [formData, setFormData] = useState({})
     const [newVisit, setNewVisit] = useState(false)
     const [matchingTraveler, setMatchingTraveler] = useState('')
+    const [newVisitCountry, setNewVisitCountry] = useState([])
 
     useEffect(() => {
         
@@ -30,6 +31,10 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
             })
             setMatchingTraveler('')
         }
+
+        
+
+
     }, [newTraveler, newVisit])
 
     function handleChange(e) {
@@ -69,11 +74,20 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
                 body: JSON.stringify(formData)
             })
                 .then(r => r.json())
-                .then(createdVisit => console.log(createdVisit))
-        
-        setKey('home')
-        setNewTraveler('')
-        setNewVisit(!newVisit)
+                .then(createdVisit => {
+                    setNewVisitCountry(createdVisit)
+                    let modifiedTravelerCount = [...travelerCountArray]
+                    // Subtracting count of traveler from previous country
+                    modifiedTravelerCount[matchingTraveler.current_country_id-1] = modifiedTravelerCount[matchingTraveler.current_country_id-1] - 1;
+                    // Adding count of traveler to new country
+                    modifiedTravelerCount[createdVisit.country_id-1] = modifiedTravelerCount[createdVisit.country_id-1] + 1;
+                    setTravelerCountArray(modifiedTravelerCount)
+                })
+                .then(() => {
+                    setKey('home')
+                    setNewTraveler('')
+                    setNewVisit(!newVisit)
+                })
     }
 
     function newTravelerAddedAlert() {
@@ -81,7 +95,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler }) {
             <Alert variant="warning" >
                 <Alert.Heading>{newTraveler.traveler_name} has been added to the database.</Alert.Heading>
                 <p>
-                Please add a visit for the newly created traveler to continue.
+                Please add a visit for {newTraveler.traveler_name} to continue.
                 </p>
             </Alert>
         )
