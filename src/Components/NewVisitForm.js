@@ -5,12 +5,11 @@ import { Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import MatchingTravelerAlert from "./MatchingTravelerAlert";
 
-function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, travelerCountArray, setTravelerCountArray }) {
+function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, travelerCountArray, setTravelerCountArray, setSelectedCountry, setSelectedTraveler }) {
 
     const [formData, setFormData] = useState({})
     const [newVisit, setNewVisit] = useState(false)
     const [matchingTraveler, setMatchingTraveler] = useState('')
-    const [newVisitCountry, setNewVisitCountry] = useState([])
 
     useEffect(() => {
         
@@ -31,9 +30,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
             })
             setMatchingTraveler('')
         }
-
-        
-
 
     }, [newTraveler, newVisit])
 
@@ -75,18 +71,21 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
             })
                 .then(r => r.json())
                 .then(createdVisit => {
-                    setNewVisitCountry(createdVisit)
                     let modifiedTravelerCount = [...travelerCountArray]
                     // Subtracting count of traveler from previous country
                     modifiedTravelerCount[matchingTraveler.current_country_id-1] = modifiedTravelerCount[matchingTraveler.current_country_id-1] - 1;
                     // Adding count of traveler to new country
                     modifiedTravelerCount[createdVisit.country_id-1] = modifiedTravelerCount[createdVisit.country_id-1] + 1;
                     setTravelerCountArray(modifiedTravelerCount)
+                    setSelectedCountry(createdVisit.country_id)
+                    setSelectedTraveler(createdVisit.traveler_id)
+                    
                 })
                 .then(() => {
                     setKey('home')
                     setNewTraveler('')
                     setNewVisit(!newVisit)
+                    setMatchingTraveler('')
                 })
     }
 

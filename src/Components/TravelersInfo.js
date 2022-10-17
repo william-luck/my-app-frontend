@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 
-function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert }) {
+function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert, selectedTraveler }) {
 
     const [travelersInCountry, setTravelersInCountry] = useState([])
     const [visitsOfSelectedTravler, setVistsOfSelectedTraveler] = useState([])
@@ -25,20 +25,31 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         fetch(`http://localhost:9292/findcountryname/${selectedCountry}`)
             .then(r => r.json())
             .then(country => setSelectedCountryName(country.country_name))
+        
+        if (selectedTraveler) {
+            getVisits(selectedTraveler)
+        }
+        
     }, [selectedCountry])
 
     // For displaying the visits of selected traveler
     function handleClick(id) {
         console.log("traveler clicked")
         console.log('ID of traveler clicked:' + id)
+        
+        getVisits(id)
+
+        setProfileEnabled(!profileEnabled)
+        setSelectedTraveler(id)
+    }
+
+    function getVisits(id) {
         fetch(`http://localhost:9292/visits/${id}`)
             .then((r) => r.json())
             .then((visits) => {
                 console.log(visits)
                 setVistsOfSelectedTraveler(visits)
             })
-        setProfileEnabled(!profileEnabled)
-        setSelectedTraveler(id)
     }
 
     return(

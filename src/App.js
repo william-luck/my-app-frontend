@@ -14,7 +14,7 @@ import { Container } from 'react-bootstrap';
 function App() {
 
   const [countries, setCountries] = useState([])
-  const [selectedCountry, setSelectedCountry] = useState(1)
+  const [selectedCountry, setSelectedCountry] = useState(0)
   const [travelerCountArray, setTravelerCountArray] = useState([])
   const [profileEnabled, setProfileEnabled] = useState(false)
   const [selectedTraveler, setSelectedTraveler] = useState(null)
@@ -56,6 +56,7 @@ function App() {
           profileEnabled={profileEnabled}
           setSelectedTraveler={setSelectedTraveler}
           deleteAlert={deleteAlert}
+          selectedTraveler={selectedTraveler}
           />
       </Tab>
       {profileEnabled ? 
@@ -70,7 +71,7 @@ function App() {
         <NewTravelerForm countries={countries} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray}/>
       </Tab>
       <Tab eventKey="add-visit" title="Add Visit">
-        <NewVisitForm countries={countries} newTraveler={newTraveler} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray} setTravelerCountArray={setTravelerCountArray}/>
+        <NewVisitForm countries={countries} newTraveler={newTraveler} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray} setTravelerCountArray={setTravelerCountArray} setSelectedCountry={setSelectedCountry} setSelectedTraveler={setSelectedTraveler}/>
       </Tab>
     </Tabs>
 
