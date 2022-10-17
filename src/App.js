@@ -21,6 +21,7 @@ function App() {
   const [key, setKey] = useState('home')
   const [deleteAlert, setDeleteAlert] = useState(null)
   const [newTraveler, setNewTraveler] = useState('')
+  const [updatedVisitor, setUpdatedVisitor] = useState(true)
   // const [matchingTraveler, setMatchingTraveler] = useState('')
 
   useEffect(() => {
@@ -49,7 +50,7 @@ function App() {
       justify
     >
       <Tab eventKey="home" title="Countries">
-        <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray} setDeleteAlert={setDeleteAlert}/>
+        <CountryList countries={countries} setSelectedCountry={setSelectedCountry} travelerCountArray={travelerCountArray} setDeleteAlert={setDeleteAlert} />
         <TravelersInfo 
           selectedCountry={selectedCountry} 
           setProfileEnabled={setProfileEnabled} 
@@ -57,6 +58,8 @@ function App() {
           setSelectedTraveler={setSelectedTraveler}
           deleteAlert={deleteAlert}
           selectedTraveler={selectedTraveler}
+          updatedVisitor={updatedVisitor}
+          setUpdatedVisitor={setUpdatedVisitor}
           />
       </Tab>
       {profileEnabled ? 
@@ -71,7 +74,7 @@ function App() {
         <NewTravelerForm countries={countries} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray}/>
       </Tab>
       <Tab eventKey="add-visit" title="Add Visit">
-        <NewVisitForm countries={countries} newTraveler={newTraveler} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray} setTravelerCountArray={setTravelerCountArray} setSelectedCountry={setSelectedCountry} setSelectedTraveler={setSelectedTraveler}/>
+        <NewVisitForm countries={countries} newTraveler={newTraveler} setKey={setKey} setNewTraveler={setNewTraveler} travelerCountArray={travelerCountArray} setTravelerCountArray={setTravelerCountArray} setSelectedCountry={setSelectedCountry} setSelectedTraveler={setSelectedTraveler} setUpdatedVisitor={setUpdatedVisitor} />
       </Tab>
     </Tabs>
 

@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import MatchingTravelerAlert from "./MatchingTravelerAlert";
 
-function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, travelerCountArray, setTravelerCountArray, setSelectedCountry, setSelectedTraveler }) {
+function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, travelerCountArray, setTravelerCountArray, setSelectedCountry, setSelectedTraveler, setUpdatedVisitor }) {
 
     const [formData, setFormData] = useState({})
     const [newVisit, setNewVisit] = useState(false)
@@ -86,6 +86,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
                     setNewTraveler('')
                     setNewVisit(!newVisit)
                     setMatchingTraveler('')
+                    setUpdatedVisitor(true)
                 })
     }
 

@@ -3,19 +3,20 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import { Container } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 
-function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert, selectedTraveler }) {
+function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert, selectedTraveler, updatedVisitor, setUpdatedVisitor }) {
 
     const [travelersInCountry, setTravelersInCountry] = useState([])
     const [visitsOfSelectedTravler, setVistsOfSelectedTraveler] = useState([])
     const [selectedCountryName, setSelectedCountryName] = useState('')
 
     useEffect(() => {
-        // For getting the countries that are in the selected country
+        // For getting the travelers that are in the selected country
         fetch(`http://localhost:9292/travelers_in_country/${selectedCountry}`)
             .then((r) => r.json())
             .then(travelers_in_country => {
@@ -28,6 +29,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         
         if (selectedTraveler) {
             getVisits(selectedTraveler)
+
         }
         
     }, [selectedCountry])
@@ -41,6 +43,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
 
         setProfileEnabled(!profileEnabled)
         setSelectedTraveler(id)
+        setUpdatedVisitor(false)
     }
 
     function getVisits(id) {
@@ -52,10 +55,20 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
             })
     }
 
+    function newVisitAlert(visit) {
+
+        return (
+            <Alert variant="warning" dismissible onClose={() => setUpdatedVisitor(false)}>
+                <Alert.Heading>A new visit has been recorded for {visit} in {selectedCountryName} </Alert.Heading>
+            </Alert>
+        )
+    }
+
     return(
         !deleteAlert ? 
         <div>
             <Container>
+                {/* {true ? newVisitAlert('') : null } */}
             <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
                 <Row>
                     <Col sm={4}>
@@ -65,7 +78,6 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
                                 onClick={() => handleClick(traveler.id)} 
                                 // key={traveler.id}
                                 href={traveler.id}
-                                
                                     >{traveler.traveler_name}</ListGroup.Item>
                         }))}
                     </ListGroup>
@@ -74,7 +86,9 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
                     <Tab.Content>
                         {travelersInCountry.map(traveler => {
                             return <Tab.Pane eventKey={traveler.id}>
-                                Vists in {selectedCountryName}
+                                {/* {newVisitAlert(traveler.traveler_name)} */}
+                                {updatedVisitor ? newVisitAlert(traveler.traveler_name) : null}
+                                {traveler.traveler_name}'s vists in {selectedCountryName}
                                 <ul>
                                     {visitsOfSelectedTravler.filter(visit => visit.country_id === selectedCountry).map(visit => {
                                         return <li>{visit.accomodation_type}
