@@ -19,9 +19,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         // For getting the travelers that are in the selected country
         fetch(`http://localhost:9292/travelers_in_country/${selectedCountry}`)
             .then((r) => r.json())
-            .then(travelers_in_country => {
-                setTravelersInCountry(travelers_in_country)
-            })
+            .then(travelersInCountry => setTravelersInCountry(travelersInCountry))
 
         // For getting the country name of selected country
         fetch(`http://localhost:9292/findcountryname/${selectedCountry}`)

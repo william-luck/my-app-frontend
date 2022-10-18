@@ -1,70 +1,18 @@
-# Getting Started with Create React App
+# Traveler tracker backend: 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://github.com/william-luck/traveler-tracker
 
-## Available Scripts
+# Description
 
-In the project directory, you can run:
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cx61fm5yc64autsfhazz.gif)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This application is used for tracking travelers in a country at a given time. Users can scroll through a list of all countries, see the number of travelers in that country, select the country for a list of current travelers, and see the individual visits for the traveler in that country. Additionally, users can see the traveler profile, and there are options to add a new traveler or a new visit for an existing traveler.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Upon loading the application, users see a list of all countries in the database, with badges to indicate the number of travelers currently in that country. Clicking on that country will display a list of travelers currently in that country. 
 
-### `npm test`
+From there, clicking on the traveler will show all of the traveler's visits in that country, and send their information to the profile tab. The profile tab is disabled by default, but enables once a traveler is selected for the first time. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Users can edit the name or passport number of the traveler in the profile, but nothing else. This is used as a statistics page. Adding visits for a traveler are done through the add visit tab, where the user can enter the passport number of a traveler to add a visit. Once a matching traveler is found using the passport number, an alert will display on the top of the page for the matching traveler. Adding a visit moves the traveler from the previous country to the country of the new visit. After adding a visit, users are pushed back to the home page. 
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Adding a traveler directs the user to the add visit tab, and the passport number is automatically filled in to avoid mistakes in entry. After adding a visit for the new traveler, the user is pushed to the newly created traveler's profile page. 
