@@ -11,43 +11,24 @@ import { useEffect } from 'react';
 
 function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert, selectedTraveler, updatedVisitor, setUpdatedVisitor }) {
 
-    const [travelersInCountry, setTravelersInCountry] = useState([])
-    const [visitsOfSelectedTravler, setVistsOfSelectedTraveler] = useState([])
     const [selectedCountryName, setSelectedCountryName] = useState('')
+    const [countryDetails, setCountryDetails] = useState('')
 
     useEffect(() => {
-        // For getting the travelers that are in the selected country
-        fetch(`http://localhost:9292/travelers_in_country/${selectedCountry}`)
-            .then((r) => r.json())
-            .then(travelersInCountry => setTravelersInCountry(travelersInCountry))
-
-        // For getting the country name of selected country
-        fetch(`http://localhost:9292/findcountryname/${selectedCountry}`)
+       
+        fetch(`http://localhost:9292/countries/${selectedCountry}`)
             .then(r => r.json())
-            .then(country => setSelectedCountryName(country.country_name))
-        
-        // Gets the visits of selected traveler
-        if (selectedTraveler) {
-            getVisits(selectedTraveler)
-        }
+            .then(countryDetails => setCountryDetails(countryDetails))
 
-        // Makes these requests every time the selected country changes
     }, [selectedCountry])
 
     // For displaying the visits of selected traveler
     function handleClick(id) {
-        getVisits(id)
         setSelectedTraveler(id)
         // Removes new visit alert
         setUpdatedVisitor(false)
         // Enables the profile tab , which is not enabled until first traveler is clicked 
         setProfileEnabled(true)
-    }
-
-    function getVisits(id) {
-        fetch(`http://localhost:9292/visits/${id}`)
-            .then((r) => r.json())
-            .then((visits) => setVistsOfSelectedTraveler(visits))
     }
 
     // Displays on new visit added to database.
@@ -65,28 +46,31 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         <div>
             <Container>
             {updatedVisitor ? newVisitAlert(updatedVisitor) : null}
+            {countryDetails ? 
             <Tab.Container defaultActiveKey="#link1">
                 <Row>
                     <Col sm={4}>
                     <ListGroup>
-                        {travelersInCountry.map((traveler => {
+                        {countryDetails.travelers_currently_in_country.map((traveler => {
                             return <ListGroup.Item onClick={() => handleClick(traveler.id)} href={traveler.id}>{traveler.traveler_name}</ListGroup.Item>
                         }))}
                     </ListGroup>
                     </Col>
                     <Col sm={8}>
                     <Tab.Content>
-                        {travelersInCountry.map(traveler => {
+                        {countryDetails.travelers_currently_in_country.map(traveler => {
                             return <Tab.Pane eventKey={traveler.id}>
-                                {traveler.traveler_name}'s vists in {selectedCountryName}
+                                {traveler.traveler_name}'s vists in {countryDetails.country_name}
                                 <ul>
-                                    {visitsOfSelectedTravler.filter(visit => visit.country_id === selectedCountry).map(visit => {
-                                        return <li>{visit.accomodation_type}
+                                    {traveler.visits.filter(visit => visit.country_id === selectedCountry).map(visit => {
+                                        return (
+                                        <li>{visit.accomodation_type}
                                         <ul>
                                             <li>{visit.accomodation_name}</li>
-                                            <li>{visit.address}, {selectedCountryName}</li> 
+                                            <li>{visit.address}, {countryDetails.country_name}</li> 
                                         </ul> 
-                                    </li>
+                                        </li>
+                                        )
                                     })
                                     }
                                 </ul>
@@ -96,6 +80,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
                     </Col>
                 </Row>
             </Tab.Container>
+            : null}
             </Container>
 
         </div>

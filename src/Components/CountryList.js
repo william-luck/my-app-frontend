@@ -23,7 +23,7 @@ function CountryList({countries, setSelectedCountry, travelerCountArray, setDele
                 countries.map((country, index) => {
                     return <ListGroup.Item action onClick={() => handleClick(country.id)} key={country.id} >
                         {country.country_name}&nbsp;&nbsp;
-                        <Badge>{travelerCountArray[index]}</Badge>
+                        <Badge>{country.travelers_currently_in_country.length}</Badge>
                         </ListGroup.Item>
                 })
                 : null}

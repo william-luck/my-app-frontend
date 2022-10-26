@@ -13,8 +13,7 @@ import { Container } from 'react-bootstrap';
 function App() {
 
   const [countries, setCountries] = useState([])
-  const [selectedCountry, setSelectedCountry] = useState(0)
-  const [travelerCountArray, setTravelerCountArray] = useState([])
+  const [selectedCountry, setSelectedCountry] = useState(1)
   const [profileEnabled, setProfileEnabled] = useState(false)
   const [selectedTraveler, setSelectedTraveler] = useState(null)
   const [key, setKey] = useState('home')
@@ -27,13 +26,9 @@ function App() {
     fetch('http://localhost:9292/countries')
       .then((r) => r.json())
       .then((countries) => {setCountries(countries)})
-      .then(() => {
-        fetch('http://localhost:9292/traveler_count')
-        .then(r => r.json())
-        .then(arr => setTravelerCountArray(arr))
-        .then(() => setContentLoaded(true))
-      })
+      .then(() => setContentLoaded(true))
 }, [])
+
 
   return (
     <Container>
@@ -44,7 +39,6 @@ function App() {
         {contentLoaded ? <CountryList 
           countries={countries} 
           setSelectedCountry={setSelectedCountry} 
-          travelerCountArray={travelerCountArray} 
           setDeleteAlert={setDeleteAlert} 
           setUpdatedVisitor={setUpdatedVisitor}/> : 'Please wait, loading countries and travelers from database...'}
         {contentLoaded ? <TravelersInfo 
@@ -63,10 +57,8 @@ function App() {
         <Tab eventKey="profile" title="Traveler Profile">
         <TravelerProfile 
           selectedTraveler={selectedTraveler} 
-          travelerCountArray={travelerCountArray} 
           setKey={setKey} 
           setSelectedCountry={setSelectedCountry} 
-          setTravelerCountArray={setTravelerCountArray} 
           setDeleteAlert={setDeleteAlert} 
           setProfileEnabled={setProfileEnabled} 
           setSelectedTraveler={setSelectedTraveler}/>
@@ -80,8 +72,7 @@ function App() {
         <NewTravelerForm 
           countries={countries} 
           setKey={setKey} 
-          setNewTraveler={setNewTraveler} 
-          travelerCountArray={travelerCountArray}/>
+          setNewTraveler={setNewTraveler} />
       </Tab>
 
       <Tab eventKey="add-visit" title="Add Visit">
@@ -90,8 +81,6 @@ function App() {
           newTraveler={newTraveler} 
           setKey={setKey} 
           setNewTraveler={setNewTraveler} 
-          travelerCountArray={travelerCountArray} 
-          setTravelerCountArray={setTravelerCountArray} 
           setSelectedCountry={setSelectedCountry} 
           setSelectedTraveler={setSelectedTraveler} 
           setUpdatedVisitor={setUpdatedVisitor} />

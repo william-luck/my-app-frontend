@@ -9,17 +9,21 @@ import Alert from 'react-bootstrap/Alert';
 function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSelectedCountry, setTravelerCountArray, setDeleteAlert, setProfileEnabled, setSelectedTraveler }) {
 
     const [statistics, setStatistics] = useState('')
-    const [editing, setEditing] = useState(false)
+    const [nameEditing, setNameEditing] = useState(false)
     const [passportEditing, setPassportEditing] = useState(false)
-    const [name, setName] = useState(statistics.name)
-    const [passportNumber, setPassportNumber] = useState(statistics.passport)
+    const [name, setName] = useState('')
+    const [passportNumber, setPassportNumber] = useState('')
     const [dataChange, setDataChange] = useState(true)
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        fetch(`http://localhost:9292/traveler_statistics/${selectedTraveler}`)
+        fetch(`http://localhost:9292/traveler/${selectedTraveler}`)
             .then(r => r.json())
-            .then(data => {setStatistics(data)})
+            .then(data => {
+                setStatistics(data)
+                setName(data.name)
+                setPassportNumber(data.passport)
+            })
     }, [dataChange, selectedTraveler])
 
 
@@ -27,17 +31,19 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         setName(event.target.value)
     }
 
-    function handleNameSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault()
-        setEditing(!editing)
+        setNameEditing(false)
+        setPassportEditing(false)
 
-        fetch(`http://localhost:9292/traveler_name/${selectedTraveler}`,{
+        fetch(`http://localhost:9292/traveler/${selectedTraveler}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                traveler_name: name
+                traveler_name: name,
+                passport_number: passportNumber
             })
         })
             .then(r => r.json())
@@ -49,29 +55,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         
     }
 
-    function handlePassportSubmit(e) {
-        e.preventDefault()
-
-        if (passportNumber.length !== 9) {
-            setError(true)
-        } else {
-            setError(false)
-
-            setPassportEditing(!passportEditing)
-
-            fetch(`http://localhost:9292/traveler_passport/${selectedTraveler}`,{
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    passport_number: passportNumber
-                })
-            })
-                .then(r => r.json())
-                .then(() => setDataChange(!dataChange))
-            }
-    }
 
     function handleDelete() {
         fetch(`http://localhost:9292/traveler_delete/${selectedTraveler}`, {
@@ -79,14 +62,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         })
             .then(r => r.json())
         
-        fetch(`http://localhost:9292/deleted_traveler_country/${selectedTraveler}`)
-            .then(r => r.json())
-            .then(country => {
-                let modifiedTravelerCount = [...travelerCountArray]
-                modifiedTravelerCount[country.id-1] = modifiedTravelerCount[country.id-1] - 1;
-                setTravelerCountArray(modifiedTravelerCount)
-            })
-
         setKey('home')
         setSelectedCountry(1)
         setDeleteAlert(() => deleteAlert())
@@ -96,7 +71,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
 
     function nameInput() {
         return (
-            <Form onSubmit={handleNameSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Control placeholder="Edit name.." onChange={handleNameChange} value={name} name='name'/>
             </Form>
         )
@@ -104,7 +79,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
 
     function passportInput() {
         return (
-            <Form onSubmit={handlePassportSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Control placeholder="Edit passport number.." onChange={handlePassportChange} value={passportNumber} name='passport number'/>
             </Form>
         )
@@ -135,8 +110,8 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
     return (
         <div>
             {error ? passportError() : null}
-            Name: { !editing ? statistics.name : nameInput()} {!editing ? <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button> : null}<br></br>
-            Passport number: { !passportEditing ? statistics.passport : passportInput()} {!passportEditing ? <Button variant="link" onClick={() => setPassportEditing(!passportEditing)}>Edit</Button> : null}<br></br>
+            Name: { !nameEditing ? statistics.name : nameInput()} {!nameEditing ? <Button variant="link" onClick={() => setNameEditing(true)}>Edit</Button> : null}<br></br>
+            Passport number: { !passportEditing ? statistics.passport : passportInput()} {!passportEditing ? <Button variant="link" onClick={() => setPassportEditing(true)}>Edit</Button> : null}<br></br>
             Nationality: {statistics.nationality}<br></br>
             Current country: {statistics.current_country}<br></br>
             Total countries visited: {statistics.total_countries}<br></br> 
