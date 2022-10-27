@@ -55,9 +55,9 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         
     }
 
-
+    // Fixed, but need to alter the count of each country after deletion.  
     function handleDelete() {
-        fetch(`http://localhost:9292/traveler_delete/${selectedTraveler}`, {
+        fetch(`http://localhost:9292/traveler/${selectedTraveler}`, {
             method: "DELETE",
         })
             .then(r => r.json())
@@ -69,22 +69,9 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
 
     }
 
-    function nameInput() {
-        return (
-            <Form onSubmit={handleSubmit}>
-                <Form.Control placeholder="Edit name.." onChange={handleNameChange} value={name} name='name'/>
-            </Form>
-        )
-    }
+    
 
-    function passportInput() {
-        return (
-            <Form onSubmit={handleSubmit}>
-                <Form.Control placeholder="Edit passport number.." onChange={handlePassportChange} value={passportNumber} name='passport number'/>
-            </Form>
-        )
-    }
-
+    // May not work with new routes, all below are components.
     function passportError() {
         return (
             <Alert variant="danger" onClose={() => setError(false)} dismissible>
@@ -104,6 +91,22 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
                 Please select another country to display travelers.
                 </p>
             </Alert>
+        )
+    }
+
+    function nameInput() {
+        return (
+            <Form onSubmit={handleSubmit}>
+                <Form.Control placeholder="Edit name.." onChange={handleNameChange} value={name} name='name'/>
+            </Form>
+        )
+    }
+
+    function passportInput() {
+        return (
+            <Form onSubmit={handleSubmit}>
+                <Form.Control placeholder="Edit passport number.." onChange={handlePassportChange} value={passportNumber} name='passport number'/>
+            </Form>
         )
     }
 

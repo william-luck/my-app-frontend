@@ -26,7 +26,7 @@ function NewTravelerForm({ countries, setKey, setNewTraveler }) {
         if (formData.passport_number.length !== 9) {
             setError(true)
         } else {
-            fetch ('http://localhost:9292/add_traveler', {
+            fetch ('http://localhost:9292/traveler', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

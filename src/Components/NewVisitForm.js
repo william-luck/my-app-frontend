@@ -45,10 +45,10 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
                 [e.target.name]: parseInt(e.target.value)
             })
         }
-
+        
         if (e.target.name === 'passport_number') {
             if (e.target.value.length === 9) {
-                fetch(`http://localhost:9292/lookup_traveler/${e.target.value}`)
+                fetch(`http://localhost:9292/traveler/${e.target.value}`)
                     .then(r => r.json())
                     .then(traveler => setMatchingTraveler(traveler))
             } else {
@@ -57,10 +57,12 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
         }
     }
 
+    // Something here where not pushed to home/profile from new traveler. The passport input is still locked. 
+    // Still need to test from not a new traveler. 
     function handleSubmit(e) {
         e.preventDefault()
 
-        fetch ('http://localhost:9292/add_visit', {
+        fetch ('http://localhost:9292/visit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

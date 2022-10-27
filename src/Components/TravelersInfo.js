@@ -62,7 +62,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
                             return <Tab.Pane eventKey={traveler.id}>
                                 {traveler.traveler_name}'s vists in {countryDetails.country_name}
                                 <ul>
-                                    {traveler.visits.filter(visit => visit.country_id === selectedCountry).map(visit => {
+                                    {traveler.visits_of_current_country.map(visit => {
                                         return (
                                         <li>{visit.accomodation_type}
                                         <ul>
