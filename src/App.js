@@ -21,6 +21,8 @@ function App() {
   const [newTraveler, setNewTraveler] = useState('')
   const [updatedVisitor, setUpdatedVisitor] = useState(false)
   const [contentLoaded, setContentLoaded] = useState(false)
+
+  const [countBadges, setCountBadges] = useState([])
  
   useEffect(() => {
     fetch('http://localhost:9292/countries')
@@ -28,6 +30,10 @@ function App() {
       .then((countries) => {setCountries(countries)})
       .then(() => setContentLoaded(true))
 }, [])
+
+  function modifyTravelerCount() {
+    
+  }
 
 
   return (
@@ -50,6 +56,7 @@ function App() {
           selectedTraveler={selectedTraveler}
           updatedVisitor={updatedVisitor}
           setUpdatedVisitor={setUpdatedVisitor}
+          setKey={setKey}
           /> : null}
       </Tab>
 

@@ -62,6 +62,8 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
     function handleSubmit(e) {
         e.preventDefault()
 
+        setMatchingTraveler(formData)
+
         fetch ('http://localhost:9292/visit', {
                 method: 'POST',
                 headers: {
@@ -71,13 +73,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
             })
                 .then(r => r.json())
                 .then(createdVisit => {
-                    let modifiedTravelerCount = [...travelerCountArray]
-                    // Subtracting count of traveler from previous country
-                    modifiedTravelerCount[matchingTraveler.current_country_id-1] = modifiedTravelerCount[matchingTraveler.current_country_id-1] - 1;
-                    // Adding count of traveler to new country
-                    modifiedTravelerCount[createdVisit.country_id-1] = modifiedTravelerCount[createdVisit.country_id-1] + 1;
-                    setTravelerCountArray(modifiedTravelerCount)
-
+                    console.log(createdVisit)
                     setSelectedCountry(createdVisit.country_id)
                     setSelectedTraveler(createdVisit.traveler_id)
                     

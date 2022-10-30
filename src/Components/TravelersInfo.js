@@ -4,14 +4,13 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import { Container } from 'react-bootstrap';
 import { Alert } from 'react-bootstrap';
-
+import { Button } from "react-bootstrap"
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 
-function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert, selectedTraveler, updatedVisitor, setUpdatedVisitor }) {
+function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setSelectedTraveler, deleteAlert, selectedTraveler, updatedVisitor, setUpdatedVisitor, setKey }) {
 
-    const [selectedCountryName, setSelectedCountryName] = useState('')
     const [countryDetails, setCountryDetails] = useState('')
 
     useEffect(() => {
@@ -31,12 +30,16 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
         setProfileEnabled(true)
     }
 
+    function handleProfileClick() {
+        setKey('profile')
+    }
+
     // Displays on new visit added to database.
     function newVisitAlert(visit) {
 
         return (
             <Alert variant="warning" dismissible onClose={() => setUpdatedVisitor(false)}>
-                <Alert.Heading>A new visit has been recorded for {visit.name} in {selectedCountryName} </Alert.Heading>
+                <Alert.Heading>A new visit has been recorded for {visit.name} in {countryDetails.country_name} </Alert.Heading>
             </Alert>
         )
     }
@@ -74,6 +77,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
                                     })
                                     }
                                 </ul>
+                                <Button onClick={() => handleProfileClick()}>View Traveler Profile</Button>
                             </Tab.Pane>
                         })}
                     </Tab.Content>

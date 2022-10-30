@@ -110,6 +110,8 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         )
     }
 
+    // Seperate function to return li's of countries, while at the same time populating the set with the continents
+
     return (
         <div>
             {error ? passportError() : null}

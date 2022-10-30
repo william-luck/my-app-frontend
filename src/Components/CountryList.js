@@ -13,6 +13,8 @@ function CountryList({countries, setSelectedCountry, travelerCountArray, setDele
         setUpdatedVisitor(false)
     }
 
+    
+
     return(
         
         <div style={{maxHeight: '300px', overflowY: 'scroll'}}>
@@ -28,6 +30,14 @@ function CountryList({countries, setSelectedCountry, travelerCountArray, setDele
                 })
                 : null}
             </ListGroup>
+
+            {/* On deletion or addition, I can get the index of that changed country (id - 1),  */}
+            {/* index = countries[1].travelers_currently_in_country.findIndex(traveler => traveler.id === 124) */}
+            {/* countries[1].travelers_currently_in_country.splice(index, index) */}
+            {/* The above should remove from countries, setCountries then after that..  */}
+
+
+
 
         </Container>
         </div>
