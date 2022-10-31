@@ -16,15 +16,67 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
     const [dataChange, setDataChange] = useState(true)
     const [error, setError] = useState(false)
 
+    const [countries, setCountries] = useState([])
+    const [continents, setContinents] = useState([])
+    const [countryTally, setCountryTally] = useState({})
+
+    
+
     useEffect(() => {
         fetch(`http://localhost:9292/traveler/${selectedTraveler}`)
             .then(r => r.json())
             .then(data => {
                 setStatistics(data)
-                setName(data.name)
-                setPassportNumber(data.passport)
+                const tempContientents = new Set()
+                const tempCountries = new Set()
+                const tally = {}
+                data.countries.forEach(country => {
+                    tally[country.country_name] = tally[country.country_name] ? tally[country.country_name] + 1 : 1
+                    tempContientents.add(country.continent)
+                    tempCountries.add(country.country_name)
+                })
+                setCountryTally(tally)
+                setContinents([...tempContientents])
+                setCountries([...tempCountries])
+
+                setName(data.traveler_name)
+                setPassportNumber(data.passport_number)
+                // countryPopulator()
             })
+
     }, [dataChange, selectedTraveler])
+
+
+    function countryPopulator(){
+
+        const tempContientents = new Set()
+        const tempCountries = new Set()
+        const tally = {}
+
+        // Returns an array of li's with country names, while at the same time populating a set of contininents, and a tally of country frequency.  
+        statistics.countries.forEach(country => {
+            tally[country.country_name] = tally[country.country_name] ? tally[country.country_name] + 1 : 1
+            tempContientents.add(country.continent)
+            tempCountries.add(country.country_name)
+        })
+
+        setCountryTally(tally)
+        setContinents([...tempContientents])
+        setCountries([...tempCountries])
+
+        // return [...tempCountries].map(country => <li>{country}</li>)
+
+    }
+
+    // countryPopulator.map(country => country)
+
+    // The above function returns an array of li's... Which we will then map over. OKAY OKAY. 
+
+    // Seperate function to return li's of countries, while at the same time populating the set with the continents
+
+    // let unqiqueItems = [...new Set(statistics.countries.map(country => country.country_name))]
+
+
 
 
     function handleNameChange(event) {
@@ -110,34 +162,74 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         )
     }
 
-    // Seperate function to return li's of countries, while at the same time populating the set with the continents
+    function tallyDayFullTrips() {
+        let dayTrips = []
+        let fullTrips = []
 
+        for (const [key, value] of Object.entries(countryTally)) {
+            if (value === 1) {
+                dayTrips.push(key)
+            } else {
+                fullTrips.push(key)
+            }
+        }
+
+        console.log(fullTrips)
+
+        return {
+            dayTrips: dayTrips.length,
+            fullTrips: fullTrips.length
+        }
+
+    }
+
+    function longShortPopulator(match) {
+        let countries = []
+        for (const [key, value] of Object.entries(countryTally)) {
+            if (value === match) {
+                countries.push(key)
+            }
+        }
+        return countries
+
+    }
+
+    function findAverageStays() {
+        const values = Object.values(countryTally)
+        const summedValues = values.reduce((a, b) => a + b, 0)
+        return summedValues/values.length
+    }
+
+   
+
+    
     return (
         <div>
             {error ? passportError() : null}
-            Name: { !nameEditing ? statistics.name : nameInput()} {!nameEditing ? <Button variant="link" onClick={() => setNameEditing(true)}>Edit</Button> : null}<br></br>
-            Passport number: { !passportEditing ? statistics.passport : passportInput()} {!passportEditing ? <Button variant="link" onClick={() => setPassportEditing(true)}>Edit</Button> : null}<br></br>
+            Name: { !nameEditing ? statistics.traveler_name : nameInput()} {!nameEditing ? <Button variant="link" onClick={() => setNameEditing(true)}>Edit</Button> : null}<br></br>
+            Passport number: { !passportEditing ? statistics.passport_number : passportInput()} {!passportEditing ? <Button variant="link" onClick={() => setPassportEditing(true)}>Edit</Button> : null}<br></br>
             Nationality: {statistics.nationality}<br></br>
-            Current country: {statistics.current_country}<br></br>
-            Total countries visited: {statistics.total_countries}<br></br> 
+            Current country: { statistics ? statistics.countries[(statistics.countries).length - 1].country_name : null }<br></br>
+            Total countries visited: {countries ? countries.length : null}<br></br> 
             <ul>
-                {statistics ? statistics.countries_visited_names.map(country => <li>{country}</li>) : null}
+                {countries ? countries.map(country => <li>{country}</li>): null}
+                {/* {countries ? countryPopulator().map(country => country) : null} */}
             </ul> 
-            Total continents visited: {statistics.total_continents}<br></br>
+            Total continents visited: {continents ? continents.length : null}<br></br>
             <ul>
-                { statistics ? statistics.continent_visit_names.map(continent => <li>{continent}</li>) : null}
+                {continents ? continents.map(continent => <li>{continent}</li>): null}
             </ul> 
-            Total stays to date: {statistics.total_stays}<br></br>
-            Number of day trips: {statistics.day_trips}<br></br>
-            Number of full trips: {statistics.full_trips}<br></br>
-            Average number of stays per country: {statistics.average_stays}<br></br>
-            Longest time in a country:<br></br>
+            Total stays to date: {statistics ? statistics.countries.length : null }<br></br>
+            Number of day trips: {countryTally ? tallyDayFullTrips().dayTrips : null}<br></br>
+            Number of full trips: {countryTally ? tallyDayFullTrips().fullTrips : null}<br></br>
+            Average number of stays per country: {countryTally ? Math.round(findAverageStays()) : null}<br></br>
+            Longest time in a country: {countryTally ? Math.max(...Object.values(countryTally)): null} days<br></br>
             <ul>
-                {statistics ? statistics.longest_visited_countries.map(country => <li>{country[0].country_name} ({statistics.longest_visit} days)</li>) : null }
+                {countryTally ? longShortPopulator(Math.max(...Object.values(countryTally))).map(country => <li>{country}</li>) : null}
             </ul>
-            Shortest time in a country: <br></br>
+            Shortest time in a country: {countryTally ? Math.min(...Object.values(countryTally)): null} day<br></br>
             <ul>
-                {statistics ? statistics.shortest_visited_countries.map(country => <li>{country[0].country_name} ({statistics.shortest_visit} {statistics.shortest_visit > 1 ? 'days' : 'day'})</li>) : null}
+                {countryTally ? longShortPopulator(Math.min(...Object.values(countryTally))).map(country => <li>{country}</li>) : null}
             </ul>
             <Button onClick={() => handleDelete()}>Delete Traveler from Tracker</Button>
         </div>
