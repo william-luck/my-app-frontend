@@ -60,8 +60,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, setSelec
     function handleSubmit(e) {
         e.preventDefault()
 
-        modifyTravelerCount(matchingTraveler.countries.slice(-1)[0].id)
-
         fetch ('http://localhost:9292/visit', {
                 method: 'POST',
                 headers: {
