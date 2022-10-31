@@ -49,7 +49,13 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, setSelec
             if (e.target.value.length === 9) {
                 fetch(`http://localhost:9292/traveler/${e.target.value}`)
                     .then(r => r.json())
-                    .then(traveler => setMatchingTraveler(traveler))
+                    .then(traveler => {
+                        if (!traveler) {
+                            setMatchingTraveler('')
+                        } else {
+                            setMatchingTraveler(traveler)
+                        }
+                    })
             } else {
                 setMatchingTraveler('')
             }

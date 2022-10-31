@@ -41,44 +41,30 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
 
                 setName(data.traveler_name)
                 setPassportNumber(data.passport_number)
-                // countryPopulator()
             })
 
     }, [dataChange, selectedTraveler])
 
 
-    function countryPopulator(){
+    // function countryPopulator(){
 
-        const tempContientents = new Set()
-        const tempCountries = new Set()
-        const tally = {}
+    //     const tempContientents = new Set()
+    //     const tempCountries = new Set()
+    //     const tally = {}
+ 
+    //     statistics.countries.forEach(country => {
+    //         tally[country.country_name] = tally[country.country_name] ? tally[country.country_name] + 1 : 1
+    //         tempContientents.add(country.continent)
+    //         tempCountries.add(country.country_name)
+    //     })
 
-        // Returns an array of li's with country names, while at the same time populating a set of contininents, and a tally of country frequency.  
-        statistics.countries.forEach(country => {
-            tally[country.country_name] = tally[country.country_name] ? tally[country.country_name] + 1 : 1
-            tempContientents.add(country.continent)
-            tempCountries.add(country.country_name)
-        })
+    //     setCountryTally(tally)
+    //     setContinents([...tempContientents])
+    //     setCountries([...tempCountries])
 
-        setCountryTally(tally)
-        setContinents([...tempContientents])
-        setCountries([...tempCountries])
+    // }
 
-        // return [...tempCountries].map(country => <li>{country}</li>)
-
-    }
-
-    // countryPopulator.map(country => country)
-
-    // The above function returns an array of li's... Which we will then map over. OKAY OKAY. 
-
-    // Seperate function to return li's of countries, while at the same time populating the set with the continents
-
-    // let unqiqueItems = [...new Set(statistics.countries.map(country => country.country_name))]
-
-
-
-
+    
     function handleNameChange(event) {
         setName(event.target.value)
     }
