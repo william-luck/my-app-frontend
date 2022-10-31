@@ -1,19 +1,17 @@
-import {React } from "react";
+import {React, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 
 
 
-function CountryList({countries, setSelectedCountry, travelerCountArray, setDeleteAlert, setUpdatedVisitor }) {
+function CountryList({countries, setSelectedCountry, setDeleteAlert, setUpdatedVisitor, badgeArray}) {
 
     function handleClick(id) {
         setSelectedCountry(id)
         setDeleteAlert(null)
         setUpdatedVisitor(false)
     }
-
-    
 
     return(
         
@@ -25,19 +23,11 @@ function CountryList({countries, setSelectedCountry, travelerCountArray, setDele
                 countries.map((country, index) => {
                     return <ListGroup.Item action onClick={() => handleClick(country.id)} key={country.id} >
                         {country.country_name}&nbsp;&nbsp;
-                        <Badge>{country.travelers_currently_in_country.length}</Badge>
+                        <Badge>{badgeArray[index]}</Badge>
                         </ListGroup.Item>
                 })
                 : null}
             </ListGroup>
-
-            {/* On deletion or addition, I can get the index of that changed country (id - 1),  */}
-            {/* index = countries[1].travelers_currently_in_country.findIndex(traveler => traveler.id === 124) */}
-            {/* countries[1].travelers_currently_in_country.splice(index, index) */}
-            {/* The above should remove from countries, setCountries then after that..  */}
-
-
-
 
         </Container>
         </div>

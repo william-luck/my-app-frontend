@@ -39,7 +39,7 @@ function TravelersInfo({selectedCountry, setProfileEnabled, profileEnabled, setS
 
         return (
             <Alert variant="warning" dismissible onClose={() => setUpdatedVisitor(false)}>
-                <Alert.Heading>A new visit has been recorded for {visit.name} in {countryDetails.country_name} </Alert.Heading>
+                <Alert.Heading>A new visit has been recorded for {updatedVisitor.traveler_name} in {countryDetails.country_name} </Alert.Heading>
             </Alert>
         )
     }

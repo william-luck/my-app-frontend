@@ -21,20 +21,16 @@ function App() {
   const [newTraveler, setNewTraveler] = useState('')
   const [updatedVisitor, setUpdatedVisitor] = useState(false)
   const [contentLoaded, setContentLoaded] = useState(false)
-
-  const [countBadges, setCountBadges] = useState([])
+  const [badgeArray, setBadgeArray] = useState([])
  
   useEffect(() => {
     fetch('http://localhost:9292/countries')
       .then((r) => r.json())
-      .then((countries) => {setCountries(countries)})
+      .then((countries) => {
+        setCountries(countries)
+      })
       .then(() => setContentLoaded(true))
 }, [])
-
-  function modifyTravelerCount() {
-    
-  }
-
 
   return (
     <Container>
@@ -46,7 +42,11 @@ function App() {
           countries={countries} 
           setSelectedCountry={setSelectedCountry} 
           setDeleteAlert={setDeleteAlert} 
-          setUpdatedVisitor={setUpdatedVisitor}/> : 'Please wait, loading countries and travelers from database...'}
+          setUpdatedVisitor={setUpdatedVisitor}
+          selectedCountry={selectedCountry}
+          selectedTraveler={selectedTraveler}
+          badgeArray={badgeArray}
+          setBadgeArray={setBadgeArray}/> : 'Please wait, loading countries and travelers from database...'}
         {contentLoaded ? <TravelersInfo 
           selectedCountry={selectedCountry} 
           setProfileEnabled={setProfileEnabled} 
@@ -90,7 +90,9 @@ function App() {
           setNewTraveler={setNewTraveler} 
           setSelectedCountry={setSelectedCountry} 
           setSelectedTraveler={setSelectedTraveler} 
-          setUpdatedVisitor={setUpdatedVisitor} />
+          setUpdatedVisitor={setUpdatedVisitor} 
+          badgeArray={badgeArray}
+          setBadgeArray={setBadgeArray}/>
       </Tab>
 
     </Tabs>

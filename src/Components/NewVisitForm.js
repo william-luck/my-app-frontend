@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import MatchingTravelerAlert from "./MatchingTravelerAlert";
 
-function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, travelerCountArray, setTravelerCountArray, setSelectedCountry, setSelectedTraveler, setUpdatedVisitor }) {
+function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, setSelectedCountry, setSelectedTraveler, setUpdatedVisitor, modifyTravelerCount}) {
 
     const [formData, setFormData] = useState({})
     const [newVisit, setNewVisit] = useState(false)
@@ -28,7 +28,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
                 ...formData,
                 passport_number: newTraveler.passport_number
             })
-            setMatchingTraveler('')
         }
 
     }, [newTraveler, newVisit])
@@ -57,12 +56,11 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
         }
     }
 
-    // Something here where not pushed to home/profile from new traveler. The passport input is still locked. 
-    // Still need to test from not a new traveler. 
+    
     function handleSubmit(e) {
         e.preventDefault()
 
-        setMatchingTraveler(formData)
+        modifyTravelerCount(matchingTraveler.countries.slice(-1)[0].id)
 
         fetch ('http://localhost:9292/visit', {
                 method: 'POST',
@@ -73,7 +71,6 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
             })
                 .then(r => r.json())
                 .then(createdVisit => {
-                    console.log(createdVisit)
                     setSelectedCountry(createdVisit.country_id)
                     setSelectedTraveler(createdVisit.traveler_id)
                     
@@ -111,7 +108,7 @@ function NewVisitForm({ countries, newTraveler, setKey, setNewTraveler, traveler
     
     return (
         <>
-            {matchingTraveler ? <MatchingTravelerAlert matchingTraveler={matchingTraveler}/> : null}
+            {matchingTraveler.length !== 0 ? <MatchingTravelerAlert matchingTraveler={matchingTraveler}/> : null}
             {newTraveler ? newTravelerAddedAlert() : null}
             <Form onSubmit={handleSubmit}>
                 {newTraveler ? 

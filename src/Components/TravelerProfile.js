@@ -107,7 +107,7 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
         
     }
 
-    // Fixed, but need to alter the count of each country after deletion.  
+
     function handleDelete() {
         fetch(`http://localhost:9292/traveler/${selectedTraveler}`, {
             method: "DELETE",
@@ -122,8 +122,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
     }
 
     
-
-    // May not work with new routes, all below are components.
     function passportError() {
         return (
             <Alert variant="danger" onClose={() => setError(false)} dismissible>
@@ -173,8 +171,6 @@ function TravelerProfile({ selectedTraveler, travelerCountArray, setKey, setSele
                 fullTrips.push(key)
             }
         }
-
-        console.log(fullTrips)
 
         return {
             dayTrips: dayTrips.length,
